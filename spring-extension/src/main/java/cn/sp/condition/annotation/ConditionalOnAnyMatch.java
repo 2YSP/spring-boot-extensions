@@ -1,4 +1,4 @@
-package cn.sp.annotation;
+package cn.sp.condition.annotation;
 
 import cn.sp.condition.OnAnyMatchCondition;
 import org.springframework.context.annotation.Conditional;

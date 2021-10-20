@@ -1,6 +1,6 @@
-package cn.sp.config;
+package cn.sp.condition.test;
 
-import cn.sp.annotation.ConditionalOnAnyMatch;
+import cn.sp.condition.annotation.ConditionalOnAnyMatch;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

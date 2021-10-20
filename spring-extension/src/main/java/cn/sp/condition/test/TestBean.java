@@ -1,4 +1,4 @@
-package cn.sp.config;
+package cn.sp.condition.test;
 
 /**
  * @Author: Ship
