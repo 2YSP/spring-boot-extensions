@@ -3,6 +3,7 @@ package cn.sp.context.threadlocal.test;
 import cn.sp.context.threadlocal.RequestContext;
 import cn.sp.context.threadlocal.RequestContextHolder;
 import cn.sp.context.threadlocal.TransmissibleRunnable;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,8 @@ import java.util.concurrent.TimeUnit;
 public class RequestContextTest implements CommandLineRunner {
 
     public static final ThreadPoolExecutor POOL = new
-            ThreadPoolExecutor(4, 8, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(512));
+            ThreadPoolExecutor(4, 8, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(512),
+            new ThreadFactoryBuilder().setNameFormat("RequestContextTest-%d").build());
 
     @Override
     public void run(String... args) throws Exception {
