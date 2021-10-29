@@ -1,8 +1,8 @@
-package cn.sp.context.test;
+package cn.sp.context.threadlocal.test;
 
-import cn.sp.context.RequestContext;
-import cn.sp.context.RequestContextHolder;
-import cn.sp.context.TransmissibleRunnable;
+import cn.sp.context.threadlocal.RequestContext;
+import cn.sp.context.threadlocal.RequestContextHolder;
+import cn.sp.context.threadlocal.TransmissibleRunnable;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RequestContextTest implements CommandLineRunner {
 
-    private static final ThreadPoolExecutor POOL = new
+    public static final ThreadPoolExecutor POOL = new
             ThreadPoolExecutor(4, 8, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(512));
 
     @Override
@@ -39,9 +39,7 @@ public class RequestContextTest implements CommandLineRunner {
         for (int i = 0; i < 100; i++) {
             POOL.execute(runnable);
         }
-        while (!POOL.awaitTermination(1L, TimeUnit.SECONDS)) {
-
-        }
+        Thread.sleep(10000);
         System.out.println("RequestContextTest over");
     }
 }
