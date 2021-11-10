@@ -5,6 +5,7 @@ import cn.sp.context.threadlocal.RequestContextHolder;
 import cn.sp.context.threadlocal.TransmissibleRunnable;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -17,6 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @description
  * @date 2021/10/28 11:24
  */
+@ConditionalOnProperty(value = "test.request-context.enable", havingValue = "true")
 @Component
 public class RequestContextTest implements CommandLineRunner {
 

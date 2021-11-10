@@ -5,6 +5,7 @@ import cn.sp.context.executor.UserContext;
 import cn.sp.context.executor.UserContextHolder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @description
  * @date 2021/10/29 16:34
  */
+@ConditionalOnProperty(value = "test.thread-local-executor.enable", havingValue = "true")
 @Component
 public class ThreadLocalExecutorTest implements CommandLineRunner {
 
