@@ -1,9 +1,16 @@
 package cn.sp.validation;
 
 
+import com.google.common.collect.Lists;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Ship
@@ -14,6 +21,10 @@ import java.lang.reflect.Method;
 public class StatusCodeCheckValidator implements ConstraintValidator<StatusCodeCheck, Object> {
 
     private Class<? extends StatusCode> enumClass;
+    /**
+     * 枚举缓存
+     */
+    private static final Map<Class<? extends StatusCode>, List<StatusCode>> CACHE_MAP = new ConcurrentHashMap<>(64);
 
     @Override
     public void initialize(StatusCodeCheck constraintAnnotation) {
@@ -28,17 +39,20 @@ public class StatusCodeCheckValidator implements ConstraintValidator<StatusCodeC
         if (!enumClass.isEnum()) {
             throw new RuntimeException("StatusCode 的实现类必须是枚举类型");
         }
-        try {
-            Method method = enumClass.getDeclaredMethod("values");
-            StatusCode[] statusCodes = (StatusCode[]) method.invoke(null);
-            for (StatusCode statusCode : statusCodes) {
-                if (statusCode.getCode().equals(object)) {
-                    return true;
-                }
+        List<StatusCode> statusCodeList = CACHE_MAP.computeIfAbsent(enumClass, (key) -> {
+            try {
+                Method method = key.getDeclaredMethod("values");
+                StatusCode[] statusCodes = (StatusCode[]) method.invoke(null);
+                return Stream.of(statusCodes).collect(Collectors.toList());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            return Lists.newArrayList();
+        });
+        for (StatusCode statusCode : statusCodeList) {
+            if (statusCode.getCode().equals(object)) {
+                return true;
+            }
         }
         return false;
     }
