@@ -1,6 +1,7 @@
 package cn.sp.condition.test;
 
 import cn.sp.condition.annotation.ConditionalOnAnyMatch;
+import cn.sp.condition.annotation.ConditionalOnWindowsOrMac;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,5 +18,14 @@ public class TestConfiguration {
     public TestBean testBean() {
         System.out.println("Initialized bean:testBean...");
         return new TestBean();
+    }
+
+    //    @ConditionalOnWindowsAndMac
+    @ConditionalOnWindowsOrMac
+//    @ConditionalOnNotWindows
+    @Bean
+    public MyBean myBean() {
+        System.out.println("Initialized bean:myBean...");
+        return new MyBean();
     }
 }
